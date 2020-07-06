@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,13 +46,6 @@ public class CameraController {
 	/**
 	 * @Title: openCamera
 	 * @Description: 开启视频流
-	 * @param ip
-	 * @param username
-	 * @param password
-	 * @param channel   通道
-	 * @param stream    码流
-	 * @param starttime
-	 * @param endtime
 	 * @return Map<String,String>
 	 **/
 	@RequestMapping(value = "/cameras", method = RequestMethod.POST)
@@ -71,7 +65,7 @@ public class CameraController {
 			if (0 == keys.size()) {
 				// 开始推流
 				cameraPojo = openStream(pojo.getIp(), pojo.getUsername(), pojo.getPassword(), pojo.getChannel(),
-						pojo.getStream(), pojo.getStartTime(), pojo.getEndTime(), openTime);
+						pojo.getStream(), pojo.getRtspUrl(), pojo.getStartTime(), pojo.getEndTime(), openTime);
 				map.put("token", cameraPojo.getToken());
 				map.put("url", cameraPojo.getUrl());
 				logger.info("打开：" + cameraPojo.getRtsp());
@@ -96,7 +90,7 @@ public class CameraController {
 						logger.info("打开：" + cameraPojo.getRtsp());
 					} else {
 						cameraPojo = openStream(pojo.getIp(), pojo.getUsername(), pojo.getPassword(), pojo.getChannel(),
-								pojo.getStream(), pojo.getStartTime(), pojo.getEndTime(), openTime);
+								pojo.getStream(), pojo.getRtspUrl(), pojo.getStartTime(), pojo.getEndTime(), openTime);
 						map.put("token", cameraPojo.getToken());
 						map.put("url", cameraPojo.getUrl());
 						logger.info("打开：" + cameraPojo.getRtsp());
@@ -118,7 +112,7 @@ public class CameraController {
 						logger.info(cameraPojo.getRtsp() + " 正在进行回放...");
 					} else {
 						cameraPojo = openStream(pojo.getIp(), pojo.getUsername(), pojo.getPassword(), pojo.getChannel(),
-								pojo.getStream(), pojo.getStartTime(), pojo.getEndTime(), openTime);
+								pojo.getStream(), pojo.getRtspUrl(), pojo.getStartTime(), pojo.getEndTime(), openTime);
 						map.put("token", cameraPojo.getToken());
 						map.put("url", cameraPojo.getUrl());
 						logger.info("打开：" + cameraPojo.getRtsp());
@@ -143,7 +137,7 @@ public class CameraController {
 	 * @return
 	 * @return CameraPojo
 	 **/
-	private CameraPojo openStream(String ip, String username, String password, String channel, String stream,
+	private CameraPojo openStream(String ip, String username, String password, String channel, String stream,String rtspUrl,
 			String starttime, String endtime, String openTime) {
 		CameraPojo cameraPojo = new CameraPojo();
 		// 生成token
@@ -199,7 +193,9 @@ public class CameraController {
 		cameraPojo.setIp(IP);
 		cameraPojo.setChannel(channel);
 		cameraPojo.setStream(stream);
-		cameraPojo.setRtsp(rtsp);
+		if (!StringUtils.isEmpty(rtspUrl)){
+			cameraPojo.setRtsp(rtspUrl);
+		}
 		cameraPojo.setRtmp(rtmp);
 		cameraPojo.setUrl(url);
 		cameraPojo.setOpenTime(openTime);

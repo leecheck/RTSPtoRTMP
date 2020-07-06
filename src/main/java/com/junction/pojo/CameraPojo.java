@@ -9,6 +9,7 @@ public class CameraPojo implements Serializable {
 	private String ip;// 摄像头ip
 	private String channel;// 摄像头通道
 	private String stream;// 摄像头码流
+	private String rtspUrl;// 直接给rtsp地址
 	private String rtsp;// rtsp地址
 	private String rtmp;// rtmp地址
 	private String url;// 播放地址
@@ -120,6 +121,14 @@ public class CameraPojo implements Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getRtspUrl() {
+		return rtspUrl;
+	}
+
+	public void setRtspUrl(String rtspUrl) {
+		this.rtspUrl = rtspUrl;
 	}
 
 	@Override

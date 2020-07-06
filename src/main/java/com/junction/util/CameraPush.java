@@ -84,7 +84,7 @@ public class CameraPush {
 		// 建立TCP Scoket连接，超时时间1s，如果成功继续执行，否则return
 		logger.debug("******   TCPCheck    BEGIN   ******");
 		try {
-			rtspSocket.connect(new InetSocketAddress(cameraPojo.getIp(), 554), 1000);
+			rtspSocket.connect(new InetSocketAddress(cameraPojo.getIp(), 1554), 1000);
 		} catch (IOException e) {
 			grabber.stop();
 			grabber.close();
