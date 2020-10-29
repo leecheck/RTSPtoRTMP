@@ -7,6 +7,7 @@ public class CameraPojo implements Serializable {
 	private String username;// 摄像头账号
 	private String password;// 摄像头密码
 	private String ip;// 摄像头ip
+	private String port;
 	private String channel;// 摄像头通道
 	private String stream;// 摄像头码流
 	private String rtsp;// rtsp地址
@@ -120,6 +121,14 @@ public class CameraPojo implements Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public void setPort(String port) {
+		this.port = port;
 	}
 
 	@Override

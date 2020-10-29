@@ -84,17 +84,17 @@ public class CameraPush {
 		// 建立TCP Scoket连接，超时时间1s，如果成功继续执行，否则return
 		logger.debug("******   TCPCheck    BEGIN   ******");
 		try {
-			rtspSocket.connect(new InetSocketAddress(cameraPojo.getIp(), 554), 1000);
+			rtspSocket.connect(new InetSocketAddress(cameraPojo.getIp(), Integer.valueOf(cameraPojo.getPort())), 2000);
 		} catch (IOException e) {
 			grabber.stop();
 			grabber.close();
 			rtspSocket.close();
-			logger.error("与拉流IP：   " + cameraPojo.getIp() + "   端口：   554    建立TCP连接失败！");
+			logger.error("与拉流IP端口：   " + cameraPojo.getIp() + ":" + cameraPojo.getPort() + "     建立TCP连接失败！");
 			return null;
 		}
 		try {
 			rtmpSocket.connect(new InetSocketAddress(IpUtil.IpConvert(config.getPush_host()),
-					Integer.parseInt(config.getPush_port())), 1000);
+					Integer.parseInt(config.getPush_port())), 2000);
 		} catch (IOException e) {
 			grabber.stop();
 			grabber.close();
